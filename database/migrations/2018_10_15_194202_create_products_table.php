@@ -15,7 +15,17 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->text('description');
+            $table->integer('quantity')->unsigned();
+            $table->string('status')->default(App\Product::NOT_AVAILABLE_PRODUCT);
+            $table->string('image');
+            $table->integer('seller_id')->unsigned();
             $table->timestamps();
+
+            ##define foreign key
+            $table->foreign('seller_id')->references('id')->on('users');
+            
         });
     }
 
