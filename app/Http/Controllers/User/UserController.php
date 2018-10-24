@@ -16,7 +16,7 @@ class UserController extends ApiController
     public function index()
     {
         $users =User::all();
-        return response()->json(['users'=>$users],200);
+        return $this->showAll($users);
     }
 
     /**
@@ -64,7 +64,7 @@ class UserController extends ApiController
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return response()->json(['user'=>$user],200);
+        return $this->showOne($user);
 
     }
 
@@ -110,13 +110,13 @@ class UserController extends ApiController
 
         if ($request->has('admin')) {
             if(!$user->isVerified()){
-                return response()->json(['error' => 'Only verified users can modify','code'=>409],409);
+                return $this->errorResponse('Only verified users can modify',409);
             }
             $user->admin = $request->admin;
         }
 
         if(!$user->isDirty()){
-            return response()->json(['error' => 'You Need to specify a different','code'=>422],422);
+            return $this->errorResponse('You Need to specify a different',422);
         }
         $user->save();
 
