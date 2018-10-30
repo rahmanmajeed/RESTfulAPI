@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Buyer;
 use App\Product;
 
 class Transaction extends Model
-{
+{ use SoftDeletes;
+    protected $dates=['deleted_at'];
     protected $fiilable=['quantity','buyer_id','product_id'];
 
     public function buyer()

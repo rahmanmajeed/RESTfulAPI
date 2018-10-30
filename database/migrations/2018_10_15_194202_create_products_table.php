@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('status')->default(App\Product::NOT_AVAILABLE_PRODUCT);
             $table->string('image');
             $table->integer('seller_id')->unsigned();
+            $table->softDeletes();//deleted_at
             $table->timestamps();
 
             ##define foreign key
