@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Category;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
+use App\Category;
 
 class CategoryController extends ApiController
 {
@@ -14,7 +15,8 @@ class CategoryController extends ApiController
      */
     public function index()
     {
-        //
+        $categories= Category::all();
+        return $this->showAll($categories);
     }
 
     /**
@@ -35,7 +37,15 @@ class CategoryController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',  
+        ]);
+         $category= new Category;
+         $category->name=$request->name;
+         $category->description = $request->description;
+         $category->save();
+         return $this->showOne($category);
     }
 
     /**
@@ -44,9 +54,9 @@ class CategoryController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return $this->showOne($category);
     }
 
     /**
@@ -67,7 +77,7 @@ class CategoryController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -78,7 +88,7 @@ class CategoryController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
         //
     }
