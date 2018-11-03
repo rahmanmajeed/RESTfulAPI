@@ -77,9 +77,19 @@ class CategoryController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        if($request->has('name')){
+            $category->name=$request->name;
+        }
+        if($request->has('description')){
+            $category->description=$request->description;
+        }
+        if(!$category->isDirty()){
+            return $this->errorResponse("Specify the difference",422);
+        }
+        return $this->showOne($category);
     }
 
     /**
@@ -90,6 +100,7 @@ class CategoryController extends ApiController
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return $this->showOne($category);
     }
 }
